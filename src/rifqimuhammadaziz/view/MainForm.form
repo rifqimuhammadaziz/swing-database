@@ -134,6 +134,13 @@
                   <text value="Update"/>
                 </properties>
               </component>
+              <component id="38621" class="javax.swing.JButton" binding="btnDelete">
+                <constraints/>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Delete"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <vspacer id="6c25e">

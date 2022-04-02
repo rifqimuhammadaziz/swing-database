@@ -1,6 +1,7 @@
 package rifqimuhammadaziz.dao;
 
 import rifqimuhammadaziz.entity.Department;
+import rifqimuhammadaziz.entity.Student;
 import rifqimuhammadaziz.util.DaoService;
 import rifqimuhammadaziz.util.MySQLConnection;
 
@@ -60,6 +61,24 @@ public class DepartmentDaoImpl implements DaoService<Department> {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
                 ps.setString(1, department.getName());
                 ps.setInt(2, department.getId());
+                if (ps.executeUpdate() != 0) {
+                    connection.commit();
+                    result = 1;
+                } else {
+                    connection.rollback();
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int deleteData(Department department) throws SQLException, ClassNotFoundException {
+        int result = 0;
+        String QUERY = "DELETE FROM department WHERE id = ?";
+        try (Connection connection = MySQLConnection.createConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
+                ps.setInt(1, department.getId());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;

@@ -84,4 +84,22 @@ public class StudentDaoImpl implements DaoService<Student> {
         }
         return result;
     }
+
+    @Override
+    public int deleteData(Student student) throws SQLException, ClassNotFoundException {
+        int result = 0;
+        String QUERY = "DELETE FROM student WHERE id = ?";
+        try (Connection connection = MySQLConnection.createConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
+                ps.setString(1, student.getId());
+                if (ps.executeUpdate() != 0) {
+                    connection.commit();
+                    result = 1;
+                } else {
+                    connection.rollback();
+                }
+            }
+        }
+        return result;
+    }
 }

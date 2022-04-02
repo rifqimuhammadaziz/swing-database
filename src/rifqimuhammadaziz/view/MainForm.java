@@ -6,12 +6,9 @@ import rifqimuhammadaziz.entity.Department;
 import rifqimuhammadaziz.entity.Student;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +25,7 @@ public class MainForm {
     private JButton btnSave;
     private JTable tableStudent;
     private JSplitPane rootPanel;
+    private JButton btnDelete;
 
     private DepartmentDaoImpl departmentDao;
     private StudentDaoImpl studentDao;
@@ -157,7 +155,21 @@ public class MainForm {
                     txtID.setEnabled(false);
                     btnSave.setEnabled(false);
                     btnUpdate.setEnabled(true);
+                    btnDelete.setEnabled(true);
                 }
+            }
+        });
+
+        btnDelete.addActionListener(e -> {
+            try {
+                if (studentDao.deleteData(selectedStudent) == 1) {
+                    students.clear();
+                    students.addAll(studentDao.getAll());
+                    studentTableModel.fireTableDataChanged();
+                    resetForm();
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
         });
     }
