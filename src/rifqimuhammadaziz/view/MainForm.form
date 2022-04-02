@@ -106,6 +106,12 @@
                   <text value="Add Department"/>
                 </properties>
               </component>
+              <component id="15114" class="javax.swing.JButton" binding="btnDepartmentData">
+                <constraints/>
+                <properties>
+                  <text value="..."/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="f3ca0" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">

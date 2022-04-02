@@ -7,8 +7,6 @@ import rifqimuhammadaziz.entity.Student;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +24,7 @@ public class MainForm {
     private JTable tableStudent;
     private JSplitPane rootPanel;
     private JButton btnDelete;
+    private JButton btnDepartmentData;
 
     private DepartmentDaoImpl departmentDao;
     private StudentDaoImpl studentDao;
@@ -172,6 +171,13 @@ public class MainForm {
                 ex.printStackTrace();
             }
         });
+
+        btnDepartmentData.addActionListener(e -> {
+            JFrame frame = new JFrame("DepartmentDataForm");
+            frame.setContentPane(new DepartmentDataForm().rootPanel);
+            frame.pack();
+            frame.setVisible(true);
+        });
     }
 
     private void resetForm() {
@@ -190,7 +196,7 @@ public class MainForm {
     private static class StudentTableModel extends AbstractTableModel {
 
         private List<Student> students;
-        private final String[] COLUMNS = {"ID", "FIRST NAME", "LAST NAME", "DEPARTEMENT"};
+        private final String[] COLUMNS = {"ID", "FIRST NAME", "LAST NAME", "DEPARTMENT"};
 
         public StudentTableModel(List<Student> students) {
             this.students = students;
