@@ -44,14 +44,13 @@ public class StudentDaoImpl implements DaoService<Student> {
     @Override
     public int addData(Student student) throws SQLException, ClassNotFoundException {
         int result = 0;
-        String QUERY = "INSERT INTO student(id, first_name, last_name, address, department_id) VALUES(?, ?, ?, ?, ?)";
+        String QUERY = "INSERT INTO student(first_name, last_name, address, department_id) VALUES(?, ?, ?, ?)";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
-                ps.setString(1, student.getId());
-                ps.setString(2, student.getFirstName());
-                ps.setString(3, student.getLastName());
-                ps.setString(4, student.getAddress());
-                ps.setInt(5, student.getDepartment().getId());
+                ps.setString(1, student.getFirstName());
+                ps.setString(2, student.getLastName());
+                ps.setString(3, student.getAddress());
+                ps.setInt(4, student.getDepartment().getId());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;

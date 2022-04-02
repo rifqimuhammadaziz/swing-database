@@ -25,6 +25,7 @@ public class MainForm {
     private JSplitPane rootPanel;
     private JButton btnDelete;
     private JButton btnDepartmentData;
+    private JButton btnAddNew;
 
     private DepartmentDaoImpl departmentDao;
     private StudentDaoImpl studentDao;
@@ -67,6 +68,7 @@ public class MainForm {
         tableStudent.setModel(studentTableModel);
         tableStudent.setAutoCreateRowSorter(true);
 
+        // Button Add Department
         btnAddDepartment.addActionListener(e -> {
             String newDepartment = JOptionPane.showInputDialog(rootPanel, "New Department Name");
             if (newDepartment != null && !newDepartment.trim().isEmpty()) {
@@ -85,15 +87,14 @@ public class MainForm {
             }
         });
 
+        // Button Save
         btnSave.addActionListener(e -> {
-            if (    txtID.getText().trim().isEmpty() ||
-                    txtFirstName.getText().trim().isEmpty() ||
+            if (    txtFirstName.getText().trim().isEmpty() ||
                     txtLastName.getText().trim().isEmpty() ||
                     cbDepartment.getSelectedItem() == null) {
                 JOptionPane.showMessageDialog(rootPanel, "Please fill form correctly!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 Student student = new Student();
-                student.setId(txtID.getText());
                 student.setFirstName(txtFirstName.getText());
                 student.setLastName(txtLastName.getText().trim().isEmpty() ? null : txtLastName.getText());
                 student.setAddress(txtAddress.getText());
@@ -178,6 +179,47 @@ public class MainForm {
             frame.pack();
             frame.setVisible(true);
         });
+
+        // Button Add New
+        btnAddNew.addActionListener(e -> {
+            if (btnAddNew.getText() != "Cancel") {
+                prepareForm();
+            } else {
+                initialForm();
+            }
+        });
+    }
+
+    private void initialForm() {
+        txtID.setEnabled(false);
+        txtFirstName.setEnabled(false);
+        txtLastName.setEnabled(false);
+        txtAddress.setEnabled(false);
+        cbDepartment.setEnabled(false);
+
+        btnAddNew.setText("Add New");
+
+        btnSave.setEnabled(false);
+        btnReset.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        tableStudent.clearSelection();
+        selectedStudent = null;
+    }
+
+    private void prepareForm() {
+        txtID.setEnabled(false);
+        txtFirstName.setEnabled(true);
+        txtLastName.setEnabled(true);
+        txtAddress.setEnabled(true);
+        cbDepartment.setEnabled(true);
+
+        btnAddNew.setText("Cancel");
+
+        btnSave.setEnabled(true);
+        btnReset.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        tableStudent.clearSelection();
+        selectedStudent = null;
     }
 
     private void resetForm() {

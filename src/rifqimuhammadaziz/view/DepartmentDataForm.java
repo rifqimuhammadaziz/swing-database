@@ -26,7 +26,7 @@ public class DepartmentDataForm extends Container {
     public static void main(String[] args) {
         JFrame frame = new JFrame("DepartmentDataForm");
         frame.setContentPane(new DepartmentDataForm().rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
