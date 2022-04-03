@@ -9,6 +9,8 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class DepartmentDataForm extends Container {
         tableDepartment.setModel(departmentTableModel);
         tableDepartment.setAutoCreateRowSorter(true);
 
-        // Select Row
+        // Select Row to Delete
         tableDepartment.getSelectionModel().addListSelectionListener(e -> {
             if (!tableDepartment.getSelectionModel().isSelectionEmpty()) {
                 int selectedIndex = tableDepartment.convertRowIndexToModel(tableDepartment.getSelectedRow());
@@ -50,10 +52,39 @@ public class DepartmentDataForm extends Container {
             }
         });
 
+        // Select Row to Edit
+        tableDepartment.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    String editDepartment = JOptionPane.showInputDialog(
+                            null,
+                            "Edit Department : " + selectedDepartment.getName().toUpperCase(),
+                            "Testing",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                    selectedDepartment.setName(editDepartment);
+                    try {
+                        if (departmentDao.updateData(selectedDepartment) == 1) {
+                            departments.clear();
+                            departments.addAll(departmentDao.getAll());
+                            departmentTableModel.fireTableDataChanged();
+                        }
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
         // Button Delete
         btnDelete.addActionListener(e -> {
             try {
-                int validate = JOptionPane.showConfirmDialog(null,"Are you sure to delete?", "Delete Data",
+                int validate = JOptionPane.showConfirmDialog(
+                        null,
+                        "Are you sure to Delete Department : \n" + selectedDepartment.getId() + " - " + selectedDepartment.getName(),
+                        "Delete Department",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (validate == JOptionPane.YES_OPTION) {

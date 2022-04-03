@@ -137,12 +137,21 @@ public class MainForm {
                 selectedStudent.setAddress(txtAddress.getText());
                 selectedStudent.setDepartment((Department) cbDepartment.getSelectedItem());
                 try {
-                    if (studentDao.updateData(selectedStudent) == 1) {
-                        students.clear();
-                        students.addAll(studentDao.getAll());
-                        studentTableModel.fireTableDataChanged();
-                        resetForm();
-                        initialForm();
+                    int validate = JOptionPane.showConfirmDialog(
+                            null,
+                            "Are you sure to Update Student : " + txtID.getText(),
+                            "Update Student",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE
+                    );
+                    if (validate == JOptionPane.YES_OPTION) {
+                        if (studentDao.updateData(selectedStudent) == 1) {
+                            students.clear();
+                            students.addAll(studentDao.getAll());
+                            studentTableModel.fireTableDataChanged();
+                            resetForm();
+                            initialForm();
+                        }
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
                     ex.printStackTrace();
