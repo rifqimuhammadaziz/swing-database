@@ -23,32 +23,23 @@ public class DepartmentDataForm extends Container {
     private DepartmentTableModel departmentTableModel;
     private Department selectedDepartment;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("DepartmentDataForm");
-        frame.setContentPane(new DepartmentDataForm().rootPanel);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     public DepartmentDataForm() {
         departments = new ArrayList<>();
         departmentDao = new DepartmentDaoImpl();
 
-        // fetch data
+        // Fetch Data
         try {
             departments.addAll(departmentDao.getAll());
-            System.out.println(departments.toString());
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        // get department data and add to table
+        // Get department data and Add to table
         departmentTableModel = new DepartmentTableModel(departments);
         tableDepartment.setModel(departmentTableModel);
         tableDepartment.setAutoCreateRowSorter(true);
 
-        // JTable
+        // Select Row
         tableDepartment.getSelectionModel().addListSelectionListener(e -> {
             if (!tableDepartment.getSelectionModel().isSelectionEmpty()) {
                 int selectedIndex = tableDepartment.convertRowIndexToModel(tableDepartment.getSelectedRow());
@@ -62,7 +53,7 @@ public class DepartmentDataForm extends Container {
         // Button Delete
         btnDelete.addActionListener(e -> {
             try {
-                int validate = JOptionPane.showConfirmDialog(null,"Sure? You want to exit?", "Swing Tester",
+                int validate = JOptionPane.showConfirmDialog(null,"Are you sure to delete?", "Delete Data",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (validate == JOptionPane.YES_OPTION) {

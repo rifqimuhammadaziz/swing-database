@@ -70,7 +70,7 @@ public class MainForm {
 
         // Button Add Department
         btnAddDepartment.addActionListener(e -> {
-            String newDepartment = JOptionPane.showInputDialog(rootPanel, "New Department Name");
+            String newDepartment = JOptionPane.showInputDialog(null, "New Department Name", "Add Department", JOptionPane.INFORMATION_MESSAGE);
             if (newDepartment != null && !newDepartment.trim().isEmpty()) {
                 Department department = new Department();
                 department.setName(newDepartment);
@@ -112,12 +112,20 @@ public class MainForm {
             }
         });
 
-
+        // Button Reset
         btnReset.addActionListener(e -> {
-            resetForm();
+            int validate = JOptionPane.showConfirmDialog(null,"Are you sure to reset form?", "Reset Form",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (validate == JOptionPane.YES_OPTION) {
+                resetForm();
+            } else {
+                return;
+            }
+
         });
 
-
+        // Button Update
         btnUpdate.addActionListener(e -> {
             if (    txtID.getText().trim().isEmpty() ||
                     txtFirstName.getText().trim().isEmpty() ||
@@ -134,6 +142,7 @@ public class MainForm {
                         students.addAll(studentDao.getAll());
                         studentTableModel.fireTableDataChanged();
                         resetForm();
+                        initialForm();
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
                     ex.printStackTrace();
@@ -141,11 +150,16 @@ public class MainForm {
             }
         });
 
+        // Table Student
         tableStudent.getSelectionModel().addListSelectionListener(e -> {
             if (!tableStudent.getSelectionModel().isSelectionEmpty()) {
                 int selectedIndex = tableStudent.convertRowIndexToModel(tableStudent.getSelectedRow());
                 selectedStudent = students.get(selectedIndex);
                 if (selectedStudent != null) {
+
+                    enableTextfield();
+                    btnAddNew.setText("Cancel");
+
                     txtID.setText(selectedStudent.getId());
                     txtFirstName.setText(selectedStudent.getFirstName());
                     txtLastName.setText(selectedStudent.getLastName() != null ? selectedStudent.getLastName() : "");
@@ -160,30 +174,41 @@ public class MainForm {
             }
         });
 
+        // Button Delete
         btnDelete.addActionListener(e -> {
             try {
-                if (studentDao.deleteData(selectedStudent) == 1) {
-                    students.clear();
-                    students.addAll(studentDao.getAll());
-                    studentTableModel.fireTableDataChanged();
-                    resetForm();
+                int validate = JOptionPane.showConfirmDialog(null,"Are you sure to delete?", "Delete Data",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (validate == JOptionPane.YES_OPTION) {
+                    if (studentDao.deleteData(selectedStudent) == 1) {
+                        students.clear();
+                        students.addAll(studentDao.getAll());
+                        studentTableModel.fireTableDataChanged();
+                        resetForm();
+                    }
+                } else {
+                    return;
                 }
+
             } catch (SQLException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
 
+        // Button View Form Department Data
         btnDepartmentData.addActionListener(e -> {
             JFrame frame = new JFrame("DepartmentDataForm");
             frame.setContentPane(new DepartmentDataForm().rootPanel);
             frame.pack();
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
 
         // Button Add New
         btnAddNew.addActionListener(e -> {
             if (btnAddNew.getText() != "Cancel") {
-                prepareForm();
+                prepareToFillForm();
             } else {
                 initialForm();
             }
@@ -191,11 +216,14 @@ public class MainForm {
     }
 
     private void initialForm() {
+        resetForm();
+
         txtID.setEnabled(false);
         txtFirstName.setEnabled(false);
         txtLastName.setEnabled(false);
         txtAddress.setEnabled(false);
         cbDepartment.setEnabled(false);
+        cbDepartment.setSelectedItem(null);
 
         btnAddNew.setText("Add New");
 
@@ -206,7 +234,11 @@ public class MainForm {
         selectedStudent = null;
     }
 
-    private void prepareForm() {
+    private void prepareToFillForm() {
+        resetForm();
+
+        txtFirstName.grabFocus();
+
         txtID.setEnabled(false);
         txtFirstName.setEnabled(true);
         txtLastName.setEnabled(true);
@@ -218,6 +250,7 @@ public class MainForm {
         btnSave.setEnabled(true);
         btnReset.setEnabled(true);
         btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
         tableStudent.clearSelection();
         selectedStudent = null;
     }
@@ -228,11 +261,20 @@ public class MainForm {
         txtLastName.setText("");
         txtAddress.setText("");
 
-        txtID.setEnabled(true);
+        txtID.setEnabled(false);
         btnSave.setEnabled(true);
         btnUpdate.setEnabled(false);
         tableStudent.clearSelection();
         selectedStudent = null;
+    }
+
+    private void enableTextfield() {
+        txtFirstName.setEnabled(true);
+        txtLastName.setEnabled(true);
+        txtAddress.setEnabled(true);
+        cbDepartment.setEnabled(true);
+
+        txtFirstName.grabFocus();
     }
 
     private static class StudentTableModel extends AbstractTableModel {
