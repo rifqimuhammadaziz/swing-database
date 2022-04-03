@@ -7,6 +7,8 @@ import rifqimuhammadaziz.entity.Student;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,6 +183,13 @@ public class MainForm {
                     btnDelete.setEnabled(true);
                 }
             }
+
+            rootPanel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    initialForm();
+                }
+            });
         });
 
         // Button Delete
@@ -207,7 +216,7 @@ public class MainForm {
 
         // Button View Form Department Data
         btnDepartmentData.addActionListener(e -> {
-            JFrame frame = new JFrame("DepartmentDataForm");
+            JFrame frame = new JFrame("Department Data Table");
             frame.setContentPane(new DepartmentDataForm().rootPanel);
             frame.pack();
             frame.setLocationRelativeTo(null);
