@@ -4,6 +4,7 @@ public class User {
 
     private int id;
     private String username;
+    private String password;
     private String fullName;
     private String gender;
     private String address;
@@ -67,5 +68,13 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

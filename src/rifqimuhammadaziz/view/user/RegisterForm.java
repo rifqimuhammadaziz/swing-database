@@ -4,8 +4,6 @@ import rifqimuhammadaziz.dao.UserDaoImpl;
 import rifqimuhammadaziz.entity.User;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -22,6 +20,7 @@ public class RegisterForm {
     private JButton btnRegister;
     private JButton btnReset;
     private JPanel rootPanel;
+    private JPasswordField txtPassword;
 
     private UserDaoImpl userDao;
     private List<User> users;
@@ -40,6 +39,7 @@ public class RegisterForm {
             } else {
                 User user = new User();
                 user.setUsername(txtUsername.getText());
+                user.setPassword(String.valueOf(txtPassword.getPassword()));
                 user.setFullName(txtFullName.getText());
 
                 if (maleRadioButton.isSelected()) {
@@ -58,7 +58,7 @@ public class RegisterForm {
                         JOptionPane.showMessageDialog(rootPanel, "Success Add Data", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(rootPanel, "Failed to Add Data \nUsername " + txtUsername.getText() + "already Registered", "Register Failed", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPanel, "Failed to Add Data \nUsername " + txtUsername.getText() + " already Registered", "Register Failed", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

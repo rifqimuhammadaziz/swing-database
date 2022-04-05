@@ -25,14 +25,15 @@ public class UserDaoImpl implements DaoService<User> {
     @Override
     public int addData(User user) throws SQLException, ClassNotFoundException {
         int result = 0;
-        String QUERY = "INSERT INTO user(username, fullname, gender, address, phonenumber) VALUES(?, ?, ?, ?, ?)";
+        String QUERY = "INSERT INTO user(username, password, fullname, gender, address, phonenumber) VALUES(?, ?, ?, ?, ?, ?)";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
                 ps.setString(1, user.getUsername());
-                ps.setString(2, user.getFullName());
-                ps.setString(3, user.getGender());
-                ps.setString(4, user.getAddress());
-                ps.setString(5, user.getPhoneNumber());
+                ps.setString(2, user.getPassword());
+                ps.setString(3, user.getFullName());
+                ps.setString(4, user.getGender());
+                ps.setString(5, user.getAddress());
+                ps.setString(6, user.getPhoneNumber());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;
