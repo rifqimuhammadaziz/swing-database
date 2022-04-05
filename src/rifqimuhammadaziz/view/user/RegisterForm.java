@@ -30,6 +30,7 @@ public class RegisterForm {
         userDao = new UserDaoImpl();
         users = new ArrayList<>();
 
+        // Register Button
         btnRegister.addActionListener(e -> {
             if (    txtUsername.getText().trim().isEmpty() ||
                     txtFullName.getText().trim().isEmpty() ||
@@ -68,11 +69,25 @@ public class RegisterForm {
             public void keyPressed(KeyEvent e) {
                 char c = e.getKeyChar();
 
-                if (Character.isLetterOrDigit(c)) {
+                if (Character.isLetterOrDigit(c) || Character.isISOControl(c)) {
                     txtUsername.setEditable(true);
                 } else {
                     JOptionPane.showMessageDialog(rootPanel, "Username only contain letter and numbers", "Username error", JOptionPane.ERROR_MESSAGE);
                     txtUsername.setText("");
+                }
+            }
+        });
+
+        txtFullName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+
+                if (Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c)) {
+                    txtUsername.setEditable(true);
+                } else {
+                    JOptionPane.showMessageDialog(rootPanel, "Name only contain letter", "Name error", JOptionPane.ERROR_MESSAGE);
+                    txtFullName.setText("");
                 }
             }
         });
