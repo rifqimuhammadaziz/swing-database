@@ -1,16 +1,10 @@
 package rifqimuhammadaziz.dao;
 
-import rifqimuhammadaziz.entity.Department;
-import rifqimuhammadaziz.entity.Student;
 import rifqimuhammadaziz.entity.User;
 import rifqimuhammadaziz.util.DaoService;
 import rifqimuhammadaziz.util.MySQLConnection;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +18,25 @@ public class UserDaoImpl implements DaoService<User> {
 
     @Override
     public List<User> getAll() throws SQLException, ClassNotFoundException {
-        return null;
+        List<User> users = new ArrayList<>();
+        String QUERY = "SELECT id, username, fullname, gender, address, phonenumber FROM user";
+        try (Connection connection = MySQLConnection.createConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
+                try (ResultSet rs = ps.executeQuery()) { // result from query
+                    while (rs.next()) {
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setUsername(rs.getString("username"));
+                        user.setFullName(rs.getString("fullname"));
+                        user.setGender(rs.getString("gender"));
+                        user.setAddress(rs.getString("address"));
+                        user.setPhoneNumber(rs.getString("phonenumber"));
+                        users.add(user);
+                    }
+                }
+            }
+        }
+        return users;
     }
 
     @Override

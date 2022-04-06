@@ -22,11 +22,10 @@ public class LoginForm {
     UserDaoImpl userDao;
 
     public LoginForm() {
-
         userDao = new UserDaoImpl();
 
+        // Button Login
         loginButton.addActionListener(e -> {
-
             if (txtUsername.getText().trim().isEmpty() || txtPassword.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(rootPanel, "Please fill form correctly!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
