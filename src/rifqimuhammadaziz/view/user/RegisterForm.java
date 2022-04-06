@@ -50,7 +50,7 @@ public class RegisterForm {
             } else {
                 User user = new User();
                 user.setUsername(txtUsername.getText());
-                user.setPassword(String.valueOf(txtPassword.getPassword()));
+
                 user.setFullName(txtFullName.getText());
 
                 if (maleRadioButton.isSelected()) {
@@ -63,15 +63,21 @@ public class RegisterForm {
                 user.setPhoneNumber(txtPhoneNumber.getText());
                 user.setImage(imagePreview.getText());
 
-                try {
-                    if (userDao.addData(user) == 1) {
-                        users.clear();
-                        //resetForm();
-                        JOptionPane.showMessageDialog(rootPanel, "Success Add Data", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (!String.valueOf(txtPassword.getPassword()).equals(String.valueOf(txtPasswordConfirm.getPassword()))){
+                    JOptionPane.showMessageDialog(null, "Incorrect Password");
+                } else {
+                    user.setPassword(String.valueOf(txtPassword.getPassword()));
+                    try {
+                        if (userDao.addData(user) == 1) {
+                            users.clear();
+                            //resetForm();
+                            JOptionPane.showMessageDialog(rootPanel, "Success Add Data", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        JOptionPane.showMessageDialog(rootPanel, "Failed to Add Data \nUsername " + txtUsername.getText() + " already Registered", "Register Failed", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (SQLException | ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(rootPanel, "Failed to Add Data \nUsername " + txtUsername.getText() + " already Registered", "Register Failed", JOptionPane.ERROR_MESSAGE);
                 }
+
             }
         });
 

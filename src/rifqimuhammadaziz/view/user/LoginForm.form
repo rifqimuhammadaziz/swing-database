@@ -71,16 +71,16 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="39769" class="javax.swing.JButton" binding="button1" default-binding="true">
+          <component id="39769" class="javax.swing.JButton" binding="loginButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Button"/>
+              <text value="Login"/>
             </properties>
           </component>
-          <component id="23b6d" class="javax.swing.JButton" binding="button2" default-binding="true">
+          <component id="23b6d" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Button"/>
+              <text value="Cancel"/>
             </properties>
           </component>
         </children>
