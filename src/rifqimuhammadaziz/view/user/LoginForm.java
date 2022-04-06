@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
-public class LoginForm {
+public class LoginForm extends JFrame{
     private JTextField txtUsername;
     private JTextField txtPassword;
     private JButton loginButton;
@@ -39,6 +39,7 @@ public class LoginForm {
 //                        frame.pack();
 //                        frame.setLocationRelativeTo(null);
 //                        frame.setVisible(true);
+                        this.dispose();
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
                     ex.printStackTrace();
