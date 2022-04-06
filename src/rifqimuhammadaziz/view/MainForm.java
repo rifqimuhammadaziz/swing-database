@@ -7,6 +7,7 @@ import rifqimuhammadaziz.entity.Student;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ public class MainForm {
     private JButton btnReset;
     private JButton btnSave;
     private JTable tableStudent;
-    private JSplitPane rootPanel;
+    public JSplitPane rootPanel;
     private JButton btnDelete;
     private JButton btnDepartmentData;
     private JButton btnAddNew;

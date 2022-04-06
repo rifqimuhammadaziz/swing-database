@@ -50,7 +50,6 @@ public class RegisterForm {
             } else {
                 User user = new User();
                 user.setUsername(txtUsername.getText());
-
                 user.setFullName(txtFullName.getText());
 
                 if (maleRadioButton.isSelected()) {
@@ -70,7 +69,6 @@ public class RegisterForm {
                     try {
                         if (userDao.addData(user) == 1) {
                             users.clear();
-                            //resetForm();
                             JOptionPane.showMessageDialog(rootPanel, "Success Add Data", "Success", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } catch (SQLException | ClassNotFoundException ex) {

@@ -62,7 +62,8 @@ public class UserDaoImpl implements DaoService<User> {
         return 0;
     }
 
-    public User loginUser(User user) throws SQLException, ClassNotFoundException {
+    public int loginUser(User user) throws SQLException, ClassNotFoundException {
+        int result = 0;
         String QUERY = "SELECT * FROM user WHERE username = ? AND password = ?";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
@@ -71,13 +72,13 @@ public class UserDaoImpl implements DaoService<User> {
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(null, "Login Success.", "Logged in.", JOptionPane.INFORMATION_MESSAGE);
-
+                        result = 1;
                     } else {
                         JOptionPane.showMessageDialog(null, "Login Failed. Username or Password is incorrect", "Login Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         }
-        return user;
+        return result;
     }
 }
