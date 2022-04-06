@@ -7,6 +7,10 @@ import rifqimuhammadaziz.util.DaoService;
 import rifqimuhammadaziz.util.MySQLConnection;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +20,7 @@ import java.util.List;
 
 public class UserDaoImpl implements DaoService<User> {
 
+    String imagePath;
 
     @Override
     public List<User> getAll() throws SQLException, ClassNotFoundException {
@@ -25,7 +30,7 @@ public class UserDaoImpl implements DaoService<User> {
     @Override
     public int addData(User user) throws SQLException, ClassNotFoundException {
         int result = 0;
-        String QUERY = "INSERT INTO user(username, password, fullname, gender, address, phonenumber) VALUES(?, ?, ?, ?, ?, ?)";
+        String QUERY = "INSERT INTO user(username, password, fullname, gender, address, phonenumber, image) VALUES(?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
                 ps.setString(1, user.getUsername());
@@ -34,6 +39,8 @@ public class UserDaoImpl implements DaoService<User> {
                 ps.setString(4, user.getGender());
                 ps.setString(5, user.getAddress());
                 ps.setString(6, user.getPhoneNumber());
+                ps.setString(7, user.getImage());
+
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;
@@ -55,19 +62,22 @@ public class UserDaoImpl implements DaoService<User> {
         return 0;
     }
 
-    public int getUser(User user) throws SQLException, ClassNotFoundException {
-        int result = 0;
-        String QUERY = "SELECT username FROM user WHERE username = ?";
+    public User loginUser(User user) throws SQLException, ClassNotFoundException {
+        String QUERY = "SELECT * FROM user WHERE username = ? AND password = ?";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
                 ps.setString(1, user.getUsername());
+                ps.setString(2, user.getPassword());
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        System.out.println("Data exists!");
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(null, "Login Success.", "Logged in.", JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Login Failed. Username or Password is incorrect", "Login Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         }
-        return result;
+        return user;
     }
 }

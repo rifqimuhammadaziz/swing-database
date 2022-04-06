@@ -4,8 +4,13 @@ import rifqimuhammadaziz.dao.UserDaoImpl;
 import rifqimuhammadaziz.entity.User;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +26,9 @@ public class RegisterForm {
     private JButton btnReset;
     private JPanel rootPanel;
     private JPasswordField txtPassword;
+    private JPasswordField txtPasswordConfirm;
+    private JButton btnBrowseImage;
+    private JLabel imagePreview;
 
     private UserDaoImpl userDao;
     private List<User> users;
@@ -29,6 +37,8 @@ public class RegisterForm {
     public RegisterForm() {
         userDao = new UserDaoImpl();
         users = new ArrayList<>();
+
+        String imagePath = null;
 
         // Register Button
         btnRegister.addActionListener(e -> {
@@ -51,6 +61,7 @@ public class RegisterForm {
 
                 user.setAddress(txtAddress.getText());
                 user.setPhoneNumber(txtPhoneNumber.getText());
+                user.setImage(imagePreview.getText());
 
                 try {
                     if (userDao.addData(user) == 1) {
@@ -91,6 +102,32 @@ public class RegisterForm {
                 }
             }
         });
+
+        btnBrowseImage.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+            // extension
+            FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("*.images", "jpg", "png", "gif");
+            fileChooser.addChoosableFileFilter(fileFilter);
+
+            int fileState = fileChooser.showSaveDialog(null);
+
+            // if user select a file
+            if (fileState == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String path = selectedFile.getAbsolutePath();
+
+                // display image to JLabel
+//                imagePreview.setIcon(new ImageIcon(path));
+                imagePreview.setIcon(resizeImage(path));
+
+            }
+            // if user cancel
+            else if (fileState == JFileChooser.CANCEL_OPTION) {
+                System.out.println("No Image Selected");
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -100,6 +137,14 @@ public class RegisterForm {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public ImageIcon resizeImage(String imagePath) {
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+        Image image = imageIcon.getImage().getScaledInstance(imagePreview.getWidth(), imagePreview.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon resizedImage = new ImageIcon(image);
+
+        return resizedImage;
     }
 
 

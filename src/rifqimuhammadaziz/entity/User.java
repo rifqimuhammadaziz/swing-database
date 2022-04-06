@@ -1,5 +1,7 @@
 package rifqimuhammadaziz.entity;
 
+import java.sql.Blob;
+
 public class User {
 
     private int id;
@@ -9,6 +11,7 @@ public class User {
     private String gender;
     private String address;
     private String phoneNumber;
+    private String image;
 
     public User() {
     }
@@ -76,5 +79,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
