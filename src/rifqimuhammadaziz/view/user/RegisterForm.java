@@ -150,6 +150,4 @@ public class RegisterForm {
 
         return resizedImage;
     }
-
-
 }
