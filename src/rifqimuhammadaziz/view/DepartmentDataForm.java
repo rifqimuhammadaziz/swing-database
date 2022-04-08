@@ -63,15 +63,19 @@ public class DepartmentDataForm extends Container {
                             "Testing",
                             JOptionPane.INFORMATION_MESSAGE
                     );
-                    selectedDepartment.setName(editDepartment);
+                    String first = null;
                     try {
+                        first = selectedDepartment.getName();
+                        selectedDepartment.setName(editDepartment);
                         if (departmentDao.updateData(selectedDepartment) == 1) {
                             departments.clear();
                             departments.addAll(departmentDao.getAll());
                             departmentTableModel.fireTableDataChanged();
                         }
                     } catch (SQLException | ClassNotFoundException ex) {
-                        ex.printStackTrace();
+//                        ex.printStackTrace();
+//                        JOptionPane.showMessageDialog(null, "Cancel", "Error", JOptionPane.INFORMATION_MESSAGE);
+                        selectedDepartment.setName(first);
                     }
                 }
 

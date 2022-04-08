@@ -7,6 +7,7 @@ import rifqimuhammadaziz.view.DepartmentDataForm;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -57,31 +58,20 @@ public class UserDataForm {
         tableUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-//                if (e.getClickCount() == 2) {
-//                    String editDepartment = JOptionPane.showInputDialog(
-//                            null,
-//                            "Edit User : " + selectedUser.getFullName().toUpperCase(),
-//                            "Testing",
-//                            JOptionPane.INFORMATION_MESSAGE
-//                    );
-//                    selectedUser.setName(editDepartment);
-//                    try {
-//                        if (departmentDao.updateData(selectedDepartment) == 1) {
-//                            departments.clear();
-//                            departments.addAll(departmentDao.getAll());
-//                            departmentTableModel.fireTableDataChanged();
-//                        }
-//                    } catch (SQLException | ClassNotFoundException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                }
 
                 if (e.getClickCount() == 2) {
-                    JFrame frame = new JFrame("Edit User");
-                    frame.setContentPane(new EditForm().rootPanel);
-                    frame.pack();
-                    frame.setLocationRelativeTo(null);
-                    frame.setVisible(true);
+                    if (!tableUser.getSelectionModel().isSelectionEmpty()) {
+                        int selectedIndex = tableUser.convertRowIndexToModel(tableUser.getSelectedRow());
+                        selectedUser = users.get(selectedIndex);
+                        if (selectedUser != null) {
+                            JFrame frame = new JFrame();
+                            frame.setContentPane(new EditForm().rootPanel);
+                            frame.pack();
+                            frame.setLocationRelativeTo(null);
+                            frame.setVisible(true);
+                        }
+                    }
+
                 }
             }
         });
