@@ -12,17 +12,19 @@ public class User {
     private String address;
     private String phoneNumber;
     private String image;
+    private String status;
 
     public User() {
     }
 
-    public User(int id, String username, String fullName, String gender, String address, String phoneNumber) {
+    public User(int id, String username, String fullName, String gender, String address, String phoneNumber, String status) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
         this.gender = gender;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.status = status;
     }
 
     public int getId() {
@@ -87,5 +89,13 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

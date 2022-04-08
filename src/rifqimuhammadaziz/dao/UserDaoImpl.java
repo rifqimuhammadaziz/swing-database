@@ -15,6 +15,8 @@ import java.util.List;
 public class UserDaoImpl implements DaoService<User> {
 
     String imagePath;
+    String USER_NONACTIVE = "NON-ACTIVE";
+    String USER_ACTIVE = "ACTIVE";
 
     @Override
     public List<User> getAll() throws SQLException, ClassNotFoundException {
@@ -42,7 +44,7 @@ public class UserDaoImpl implements DaoService<User> {
     @Override
     public int addData(User user) throws SQLException, ClassNotFoundException {
         int result = 0;
-        String QUERY = "INSERT INTO user(username, password, fullname, gender, address, phonenumber, image) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String QUERY = "INSERT INTO user(username, password, fullname, gender, address, phonenumber, image, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
                 ps.setString(1, user.getUsername());
@@ -52,6 +54,7 @@ public class UserDaoImpl implements DaoService<User> {
                 ps.setString(5, user.getAddress());
                 ps.setString(6, user.getPhoneNumber());
                 ps.setString(7, user.getImage());
+                ps.setString(8, USER_NONACTIVE);
 
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
@@ -66,7 +69,24 @@ public class UserDaoImpl implements DaoService<User> {
 
     @Override
     public int updateData(User user) throws SQLException, ClassNotFoundException {
-        return 0;
+        int result = 0;
+        String QUERY = "UPDATE user SET fullname = ?, gender = ?, address = ?, phonenumber = ?, status = ? WHERE username = ?";
+        try (Connection connection = MySQLConnection.createConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
+                ps.setString(1, user.getFullName());
+                ps.setString(2, user.getGender());
+                ps.setString(3, user.getAddress());
+                ps.setString(4, user.getPhoneNumber());
+                ps.setString(5, user.getStatus());
+                if (ps.executeUpdate() != 0) {
+                    connection.commit();
+                    result = 1;
+                } else {
+                    connection.rollback();
+                }
+            }
+        }
+        return result;
     }
 
     @Override
@@ -76,17 +96,29 @@ public class UserDaoImpl implements DaoService<User> {
 
     public int loginUser(User user) throws SQLException, ClassNotFoundException {
         int result = 0;
-        String QUERY = "SELECT * FROM user WHERE username = ? AND password = ?";
+        String QUERY = "SELECT * FROM user WHERE username = ? AND password = ? AND status = ?";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
                 ps.setString(1, user.getUsername());
                 ps.setString(2, user.getPassword());
+                ps.setString(3, USER_ACTIVE);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(null, "Login Success.", "Logged in.", JOptionPane.INFORMATION_MESSAGE);
                         result = 1;
                     } else {
-                        JOptionPane.showMessageDialog(null, "Login Failed. Username or Password is incorrect", "Login Error", JOptionPane.ERROR_MESSAGE);
+                        String CHECKPASSWORD = "SELECT * FROM user WHERE username = ? AND password = ?";
+                        try (PreparedStatement checkPassword = connection.prepareStatement(CHECKPASSWORD)){
+                            checkPassword.setString(1, user.getUsername());
+                            checkPassword.setString(2, user.getPassword());
+                            try (ResultSet rsCheckPassword = checkPassword.executeQuery()){
+                                if (rsCheckPassword.next()) {
+                                    JOptionPane.showMessageDialog(null, "Login Failed. User is NonActive", "Login Error", JOptionPane.ERROR_MESSAGE);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Login Failed, Password is Incorrect", "Login Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
                     }
                 }
             }
