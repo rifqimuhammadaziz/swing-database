@@ -61,7 +61,7 @@ public class DepartmentDataForm extends Container {
                             null,
                             "Edit Department : " + selectedDepartment.getName().toUpperCase(),
                             "Testing",
-                            JOptionPane.OK_OPTION, null, null, selectedDepartment.getName()
+                            JOptionPane.INFORMATION_MESSAGE, null, null, selectedDepartment.getName()
                     );
                     String first = null;
                     try {
@@ -73,8 +73,7 @@ public class DepartmentDataForm extends Container {
                             departmentTableModel.fireTableDataChanged();
                         }
                     } catch (SQLException | ClassNotFoundException ex) {
-//                        ex.printStackTrace();
-//                        JOptionPane.showMessageDialog(null, "Cancel", "Error", JOptionPane.INFORMATION_MESSAGE);
+                        // cancel update
                         selectedDepartment.setName(first);
                     }
                 }

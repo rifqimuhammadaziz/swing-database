@@ -18,7 +18,17 @@ public class EditForm extends Container {
     private JTextField txtUsername;
 
 
-    public EditForm() {
-        
+    public EditForm(User users) {
+        txtUsername.setText(users.getUsername());
+        txtUsername.setEnabled(false);
+
+        txtFullName.setText(users.getFullName());
+        if (users.getGender().equals("Male")) {
+            maleRadioButton.setSelected(true);
+        } else if (users.getGender().equals("Female")) {
+            femaleRadioButton.setSelected(true);
+        }
+        txtAddress.setText(users.getAddress());
+        txtPhonenumber.setText(users.getPhoneNumber());
     }
 }

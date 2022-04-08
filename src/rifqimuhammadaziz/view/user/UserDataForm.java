@@ -65,10 +65,11 @@ public class UserDataForm {
                         selectedUser = users.get(selectedIndex);
                         if (selectedUser != null) {
                             JFrame frame = new JFrame();
-                            frame.setContentPane(new EditForm().rootPanel);
+                            frame.setContentPane(new EditForm(selectedUser).rootPanel);
                             frame.pack();
                             frame.setLocationRelativeTo(null);
                             frame.setVisible(true);
+
                         }
                     }
 
