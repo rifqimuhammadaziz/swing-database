@@ -21,7 +21,7 @@ public class UserDaoImpl implements DaoService<User> {
     @Override
     public List<User> getAll() throws SQLException, ClassNotFoundException {
         List<User> users = new ArrayList<>();
-        String QUERY = "SELECT id, username, fullname, gender, address, phonenumber FROM user";
+        String QUERY = "SELECT id, username, fullname, gender, address, phonenumber, status FROM user";
         try (Connection connection = MySQLConnection.createConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
                 try (ResultSet rs = ps.executeQuery()) { // result from query
@@ -33,6 +33,7 @@ public class UserDaoImpl implements DaoService<User> {
                         user.setGender(rs.getString("gender"));
                         user.setAddress(rs.getString("address"));
                         user.setPhoneNumber(rs.getString("phonenumber"));
+                        user.setStatus(rs.getString("status"));
                         users.add(user);
                     }
                 }

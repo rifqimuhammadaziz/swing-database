@@ -19,9 +19,9 @@ public class EditForm extends Container {
 
 
     public EditForm(User users) {
+        // ========== GET DATA FROM TABLE ==========
         txtUsername.setText(users.getUsername());
         txtUsername.setEnabled(false);
-
         txtFullName.setText(users.getFullName());
         if (users.getGender().equals("Male")) {
             maleRadioButton.setSelected(true);
@@ -30,5 +30,13 @@ public class EditForm extends Container {
         }
         txtAddress.setText(users.getAddress());
         txtPhonenumber.setText(users.getPhoneNumber());
+        if (users.getStatus().equals("ACTIVE")) {
+            cbStatus.setSelectedItem("ACTIVE");
+        } else if (users.getStatus().equals("NON-ACTIVE")) {
+            cbStatus.setSelectedItem("NON-ACTIVE");
+        }
+
+        // Update User
+        // TODO: 4/8/2022 : Update User 
     }
 }

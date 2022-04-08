@@ -89,7 +89,7 @@ public class UserDataForm {
 
     private static class UserTableModel extends AbstractTableModel {
         private List<User> users;
-        private final String[] COLUMNS = {"ID", "USERNAME", "FULLNAME", "GENDER", "ADDRESS", "PHONE NUMBER"};
+        private final String[] COLUMNS = {"ID", "USERNAME", "FULLNAME", "GENDER", "ADDRESS", "PHONE NUMBER", "STATUS"};
 
         public UserTableModel(List<User> users) {
             this.users = users;
@@ -114,6 +114,7 @@ public class UserDataForm {
                 case 3 -> users.get(rowIndex).getGender();
                 case 4 -> users.get(rowIndex).getAddress();
                 case 5 -> users.get(rowIndex).getPhoneNumber();
+                case 6 -> users.get(rowIndex).getStatus();
                 default -> "";
             };
         }
