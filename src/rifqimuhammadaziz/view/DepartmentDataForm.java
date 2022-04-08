@@ -57,11 +57,11 @@ public class DepartmentDataForm extends Container {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    String editDepartment = JOptionPane.showInputDialog(
+                    String editDepartment = (String) JOptionPane.showInputDialog(
                             null,
                             "Edit Department : " + selectedDepartment.getName().toUpperCase(),
                             "Testing",
-                            JOptionPane.INFORMATION_MESSAGE
+                            JOptionPane.OK_OPTION, null, null, selectedDepartment.getName()
                     );
                     String first = null;
                     try {
