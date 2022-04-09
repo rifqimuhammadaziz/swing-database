@@ -79,6 +79,7 @@ public class UserDaoImpl implements DaoService<User> {
                 ps.setString(3, user.getAddress());
                 ps.setString(4, user.getPhoneNumber());
                 ps.setString(5, user.getStatus());
+                ps.setString(6, user.getUsername());
                 if (ps.executeUpdate() != 0) {
                     connection.commit();
                     result = 1;

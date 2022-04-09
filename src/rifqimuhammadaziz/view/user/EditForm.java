@@ -1,9 +1,11 @@
 package rifqimuhammadaziz.view.user;
 
+import rifqimuhammadaziz.dao.UserDaoImpl;
 import rifqimuhammadaziz.entity.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class EditForm extends Container {
     JPanel rootPanel;
@@ -17,8 +19,13 @@ public class EditForm extends Container {
     private JComboBox cbStatus;
     private JTextField txtUsername;
 
+    private UserDaoImpl userDao;
+    private User selectedUser;
+
 
     public EditForm(User users) {
+        userDao = new UserDaoImpl();
+
         // ========== GET DATA FROM TABLE ==========
         txtUsername.setText(users.getUsername());
         txtUsername.setEnabled(false);
@@ -36,7 +43,37 @@ public class EditForm extends Container {
             cbStatus.setSelectedItem("NON-ACTIVE");
         }
 
-        // Update User
-        // TODO: 4/8/2022 : Update User 
+        btnUpdate.addActionListener(e -> {
+            if (    txtUsername.getText().trim().isEmpty() ||
+                    txtFullName.getText().trim().isEmpty() ||
+                    txtAddress.getText().trim().isEmpty() ||
+                    txtPhonenumber.getText().trim().isEmpty() ||
+                    cbStatus.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(rootPanel, "Please fill form correctly!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                users.setFullName(txtFullName.getText().trim().isEmpty() ? null : txtFullName.getText());
+                users.setAddress(txtAddress.getText().trim().isEmpty() ? null : txtAddress.getText());
+                users.setPhoneNumber(txtPhonenumber.getText().trim().isEmpty() ? null : txtPhonenumber.getText());
+                users.setStatus((String) cbStatus.getSelectedItem());
+                try {
+                    int validate = JOptionPane.showConfirmDialog(
+                            null,
+                            "Are you sure to Update User : " + txtUsername.getText(),
+                            "Update User",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE
+                    );
+                    if (validate == JOptionPane.YES_OPTION) {
+                        if (userDao.updateData(users) == 1) {
+                           userDao.updateData(users);
+                           JOptionPane.showMessageDialog(this, "User : " + txtUsername.getText(), "Update Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        }
+                    }
+                } catch (SQLException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 }
