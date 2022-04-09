@@ -2,13 +2,11 @@ package rifqimuhammadaziz.view.user;
 
 import rifqimuhammadaziz.dao.UserDaoImpl;
 import rifqimuhammadaziz.entity.User;
-import rifqimuhammadaziz.tablemodel.UserTableModel;
-import rifqimuhammadaziz.view.DepartmentDataForm;
-import rifqimuhammadaziz.view.MainForm;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -16,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDataForm {
-    private JTable tableUser;
+    public JTable tableUser;
     private JButton btnDelete;
-    private JButton button2;
+    private JButton btnRefresh;
     private JPanel rootPanel;
 
     private UserDaoImpl userDao;
@@ -55,7 +53,7 @@ public class UserDataForm {
             }
         });
 
-         // Double click row
+         // Double click row to edit
         tableUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -71,9 +69,46 @@ public class UserDataForm {
                             frame.setVisible(true);
                         }
                     }
-
                 }
             }
+        });
+
+        // Select row to delete
+        tableUser.getSelectionModel().addListSelectionListener(e -> {
+            if (!tableUser.getSelectionModel().isSelectionEmpty()) {
+                int selectedIndex = tableUser.convertRowIndexToModel(tableUser.getSelectedRow());
+                selectedUser = users.get(selectedIndex);
+                if (selectedUser != null) {
+                    btnDelete.setEnabled(true);
+                }
+            }
+        });
+
+        btnDelete.addActionListener(e -> {
+            try {
+                int validate = JOptionPane.showConfirmDialog(
+                        null,
+                        "Are you sure to Delete Department : \n" + selectedUser.getId() + " - " + selectedUser.getFullName(),
+                        "Delete Department",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (validate == JOptionPane.YES_OPTION) {
+                    if (userDao.deleteData(selectedUser) == 1) {
+                        users.clear();
+                        users.addAll(userDao.getAll());
+                    }
+                } else if (validate == JOptionPane.NO_OPTION) {
+                    userTableModel.fireTableDataChanged();
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        btnRefresh.addActionListener(e -> {
+            userTableModel.fireTableDataChanged();
+//            tableUser.repaint();
+            JOptionPane.showMessageDialog(null, "Table Refreshed", "Load Data", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 

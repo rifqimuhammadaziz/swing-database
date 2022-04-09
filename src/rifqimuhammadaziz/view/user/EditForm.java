@@ -70,7 +70,7 @@ public class EditForm extends JFrame {
                         if (userDao.updateData(users) == 1) {
                            userDao.updateData(users);
                            JOptionPane.showMessageDialog(this, "User : " + txtUsername.getText(), "Update Success", JOptionPane.INFORMATION_MESSAGE);
-                           onOk();
+                           dispose();
                         }
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -79,15 +79,23 @@ public class EditForm extends JFrame {
             }
         });
 
-        btnDelete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onOk();
+        btnDelete.addActionListener(e -> {
+            try {
+                int validate = JOptionPane.showConfirmDialog(null,"Are you sure to delete?", "Delete Data",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (validate == JOptionPane.YES_OPTION) {
+                    if (userDao.deleteData(users) == 1) {
+                        userDao.deleteData(users);
+                        JOptionPane.showMessageDialog(this, "User : " + txtUsername.getText() + "Deleted", "Delete Success", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                    }
+                } else {
+                    return;
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
         });
-    }
-
-    private void onOk() {
-        dispose();
     }
 }

@@ -22,10 +22,10 @@
               <text value="Delete"/>
             </properties>
           </component>
-          <component id="15000" class="javax.swing.JButton" binding="button2" default-binding="true">
+          <component id="15000" class="javax.swing.JButton" binding="btnRefresh">
             <constraints/>
             <properties>
-              <text value="Button"/>
+              <text value="Refresh"/>
             </properties>
           </component>
         </children>

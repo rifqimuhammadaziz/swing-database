@@ -93,7 +93,20 @@ public class UserDaoImpl implements DaoService<User> {
 
     @Override
     public int deleteData(User user) throws SQLException, ClassNotFoundException {
-        return 0;
+        int result = 0;
+        String QUERY = "DELETE FROM user WHERE id = ?";
+        try (Connection connection = MySQLConnection.createConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(QUERY)) {
+                ps.setInt(1, user.getId());
+                if (ps.executeUpdate() != 0) {
+                    connection.commit();
+                    result = 1;
+                } else {
+                    connection.rollback();
+                }
+            }
+        }
+        return result;
     }
 
     public int loginUser(User user) throws SQLException, ClassNotFoundException {
