@@ -4,6 +4,7 @@ import rifqimuhammadaziz.dao.UserDaoImpl;
 import rifqimuhammadaziz.entity.User;
 import rifqimuhammadaziz.tablemodel.UserTableModel;
 import rifqimuhammadaziz.view.DepartmentDataForm;
+import rifqimuhammadaziz.view.MainForm;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -64,12 +65,10 @@ public class UserDataForm {
                         int selectedIndex = tableUser.convertRowIndexToModel(tableUser.getSelectedRow());
                         selectedUser = users.get(selectedIndex);
                         if (selectedUser != null) {
-                            JFrame frame = new JFrame();
-                            frame.setContentPane(new EditForm(selectedUser).rootPanel);
+                            EditForm frame = new EditForm(selectedUser);
                             frame.pack();
                             frame.setLocationRelativeTo(null);
                             frame.setVisible(true);
-
                         }
                     }
 

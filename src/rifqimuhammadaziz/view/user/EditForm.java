@@ -5,10 +5,12 @@ import rifqimuhammadaziz.entity.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class EditForm extends Container {
-    JPanel rootPanel;
+public class EditForm extends JFrame {
+    private JPanel rootPanel;
     private JTextField txtFullName;
     private JRadioButton maleRadioButton;
     private JRadioButton femaleRadioButton;
@@ -22,8 +24,9 @@ public class EditForm extends Container {
     private UserDaoImpl userDao;
     private User selectedUser;
 
-
     public EditForm(User users) {
+        setContentPane(rootPanel);
+
         userDao = new UserDaoImpl();
 
         // ========== GET DATA FROM TABLE ==========
@@ -67,7 +70,7 @@ public class EditForm extends Container {
                         if (userDao.updateData(users) == 1) {
                            userDao.updateData(users);
                            JOptionPane.showMessageDialog(this, "User : " + txtUsername.getText(), "Update Success", JOptionPane.INFORMATION_MESSAGE);
-
+                           onOk();
                         }
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -75,5 +78,16 @@ public class EditForm extends Container {
                 }
             }
         });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onOk();
+            }
+        });
+    }
+
+    private void onOk() {
+        dispose();
     }
 }
