@@ -98,7 +98,7 @@ public class RegisterForm {
             public void keyPressed(KeyEvent e) {
                 char c = e.getKeyChar();
 
-                if (Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c)) {
+                if (!Character.isDigit(c)) {
                     txtUsername.setEditable(true);
                 } else {
                     JOptionPane.showMessageDialog(rootPanel, "Name only contain letter", "Name error", JOptionPane.ERROR_MESSAGE);
