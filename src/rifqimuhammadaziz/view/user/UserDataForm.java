@@ -25,7 +25,6 @@ public class UserDataForm extends JFrame{
     private User selectedUser;
 
     public UserDataForm() {
-
         users = new ArrayList<>();
         userDao = new UserDaoImpl();
 
@@ -85,6 +84,7 @@ public class UserDataForm extends JFrame{
             }
         });
 
+        // Button Delete
         btnDelete.addActionListener(e -> {
             try {
                 int validate = JOptionPane.showConfirmDialog(
@@ -92,7 +92,7 @@ public class UserDataForm extends JFrame{
                         "Are you sure to Delete Department : \n" + selectedUser.getId() + " - " + selectedUser.getFullName(),
                         "Delete Department",
                         JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE);
+                        JOptionPane.WARNING_MESSAGE);
                 if (validate == JOptionPane.YES_OPTION) {
                     if (userDao.deleteData(selectedUser) == 1) {
                         users.clear();
@@ -114,6 +114,13 @@ public class UserDataForm extends JFrame{
     }
 
     public static void main(String[] args) {
+//        try {
+//             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); // WINDOWS LOOK AND FEEL
+//             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel"); // METAL
+//             UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel"); // MOTIF LOOK AND FEEL
+//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+//            e.printStackTrace();
+//        }
         JFrame frame = new JFrame("UserDataForm");
         frame.setContentPane(new UserDataForm().rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
