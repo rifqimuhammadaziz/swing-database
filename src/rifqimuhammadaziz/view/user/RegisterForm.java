@@ -70,6 +70,7 @@ public class RegisterForm {
                         if (userDao.addData(user) == 1) {
                             users.clear();
                             JOptionPane.showMessageDialog(rootPanel, "Success Add Data", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            resetTextfield();
                         }
                     } catch (SQLException | ClassNotFoundException ex) {
                         JOptionPane.showMessageDialog(rootPanel, "Failed to Add Data \nUsername " + txtUsername.getText() + " already Registered", "Register Failed", JOptionPane.ERROR_MESSAGE);
@@ -79,6 +80,7 @@ public class RegisterForm {
             }
         });
 
+        // Validate username
         txtUsername.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -93,6 +95,7 @@ public class RegisterForm {
             }
         });
 
+        // Validate fullname
         txtFullName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -149,5 +152,16 @@ public class RegisterForm {
         ImageIcon resizedImage = new ImageIcon(image);
 
         return resizedImage;
+    }
+
+    private void resetTextfield() {
+        txtUsername.setText("");
+        txtPassword.setText("");
+        txtPasswordConfirm.setText("");
+        txtFullName.setText("");
+        maleRadioButton.setSelected(true);
+        txtAddress.setText("");
+        txtPhoneNumber.setText("");
+        imagePreview.setText("");
     }
 }

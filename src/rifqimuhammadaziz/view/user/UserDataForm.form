@@ -39,7 +39,9 @@
         <children>
           <component id="9e88c" class="javax.swing.JTable" binding="tableUser">
             <constraints/>
-            <properties/>
+            <properties>
+              <rowHeight value="35"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

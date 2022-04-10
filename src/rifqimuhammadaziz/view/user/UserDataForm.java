@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDataForm {
+public class UserDataForm extends JFrame{
     public JTable tableUser;
     private JButton btnDelete;
     private JButton btnRefresh;
@@ -25,6 +25,7 @@ public class UserDataForm {
     private User selectedUser;
 
     public UserDataForm() {
+
         users = new ArrayList<>();
         userDao = new UserDaoImpl();
 
@@ -106,8 +107,8 @@ public class UserDataForm {
         });
 
         btnRefresh.addActionListener(e -> {
-            userTableModel.fireTableDataChanged();
-//            tableUser.repaint();
+//            userTableModel.fireTableDataChanged();
+            tableUser.repaint();
             JOptionPane.showMessageDialog(null, "Table Refreshed", "Load Data", JOptionPane.INFORMATION_MESSAGE);
         });
     }
@@ -118,6 +119,7 @@ public class UserDataForm {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 
