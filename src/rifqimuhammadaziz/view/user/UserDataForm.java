@@ -64,6 +64,7 @@ public class UserDataForm extends JFrame{
                         selectedUser = users.get(selectedIndex);
                         if (selectedUser != null) {
                             EditForm frame = new EditForm(selectedUser);
+                            frame.setTitle("Edit User : " + selectedUser.getUsername());
                             frame.pack();
                             frame.setLocationRelativeTo(null);
                             frame.setVisible(true);
@@ -121,7 +122,7 @@ public class UserDataForm extends JFrame{
 //        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 //            e.printStackTrace();
 //        }
-        JFrame frame = new JFrame("UserDataForm");
+        JFrame frame = new JFrame("User Data Form");
         frame.setContentPane(new UserDataForm().rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

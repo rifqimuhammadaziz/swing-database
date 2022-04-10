@@ -4,7 +4,6 @@ import rifqimuhammadaziz.dao.UserDaoImpl;
 import rifqimuhammadaziz.entity.User;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -20,6 +19,7 @@ public class EditForm extends JFrame {
     private JButton btnDelete;
     private JComboBox cbStatus;
     private JTextField txtUsername;
+    private JButton btnCancel;
 
     private UserDaoImpl userDao;
     private User selectedUser;
@@ -46,6 +46,7 @@ public class EditForm extends JFrame {
             cbStatus.setSelectedItem("NON-ACTIVE");
         }
 
+        // Button Update
         btnUpdate.addActionListener(e -> {
             if (    txtUsername.getText().trim().isEmpty() ||
                     txtFullName.getText().trim().isEmpty() ||
@@ -96,6 +97,10 @@ public class EditForm extends JFrame {
             } catch (SQLException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
+        });
+
+        btnCancel.addActionListener(e -> {
+            dispose();
         });
     }
 }

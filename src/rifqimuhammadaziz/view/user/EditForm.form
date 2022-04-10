@@ -158,6 +158,12 @@
               <text value="Delete"/>
             </properties>
           </component>
+          <component id="c74a4" class="javax.swing.JButton" binding="btnCancel">
+            <constraints/>
+            <properties>
+              <text value="Cancel"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>

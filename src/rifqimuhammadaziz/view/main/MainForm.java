@@ -1,20 +1,20 @@
-package rifqimuhammadaziz.view;
+package rifqimuhammadaziz.view.main;
 
 import rifqimuhammadaziz.dao.DepartmentDaoImpl;
 import rifqimuhammadaziz.dao.StudentDaoImpl;
 import rifqimuhammadaziz.entity.Department;
 import rifqimuhammadaziz.entity.Student;
+import rifqimuhammadaziz.view.student.DepartmentDataForm;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainForm {
+public class MainForm extends JFrame{
     private JTextField txtID;
     private JTextField txtFirstName;
     private JTextField txtLastName;
@@ -49,6 +49,8 @@ public class MainForm {
     }
 
     public MainForm() {
+        setContentPane(rootPanel);
+
         departmentDao = new DepartmentDaoImpl();
         studentDao = new StudentDaoImpl();
         departments = new ArrayList<>();

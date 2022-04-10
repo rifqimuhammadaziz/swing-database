@@ -1,4 +1,4 @@
-package rifqimuhammadaziz.view;
+package rifqimuhammadaziz.view.student;
 
 import rifqimuhammadaziz.dao.DepartmentDaoImpl;
 import rifqimuhammadaziz.entity.Department;

@@ -2,14 +2,9 @@ package rifqimuhammadaziz.view.user;
 
 import rifqimuhammadaziz.dao.UserDaoImpl;
 import rifqimuhammadaziz.entity.User;
-import rifqimuhammadaziz.view.DepartmentDataForm;
-import rifqimuhammadaziz.view.MainForm;
+import rifqimuhammadaziz.view.main.MainForm;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 public class LoginForm extends JFrame{
@@ -34,33 +29,29 @@ public class LoginForm extends JFrame{
                     user.setUsername(txtUsername.getText());
                     user.setPassword(String.valueOf(txtPassword.getText()));
                     if (userDao.loginUser(user) == 1) {
-//                        JFrame frame = new JFrame("Department Data Table");
-//                        frame.setContentPane(new MainForm().rootPanel);
-//                        frame.pack();
-//                        frame.setLocationRelativeTo(null);
-//                        frame.setVisible(true);
-                        this.dispose();
+                        MainForm frame = new MainForm();
+                        frame.setTitle("Main Application");
+                        frame.pack();
+                        frame.setLocationRelativeTo(null);
+                        frame.setVisible(true);
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             }
         });
+
+        cancelButton.addActionListener(e -> {
+            System.exit(1);
+        });
     }
 
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("LoginForm");
+        JFrame frame = new JFrame("Login Form");
         frame.setContentPane(new LoginForm().rootPanel);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
-    private JFrame getMainFrame()
-    {
-        return (JFrame) SwingUtilities.getWindowAncestor( this.rootPanel );
-    }
-
 }
